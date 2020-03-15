@@ -1,0 +1,67 @@
+/*Press the footer to the bottom*/
+.wrapper 
+  display: flex
+  flex-direction: column
+  height: 100%
+.content 
+  flex: 1 0 auto
+.footer 
+  flex: 0 0 auto 
+/**/  
+
+.img-responsive
+  max-width: 100%
+  height: auto
+
+.img-bg
+  background-position: center
+  background-size: cover
+  background-repeat: no-repeat 
+
+.d-none 
+  display: none !important
+
+.logo
+  display: block
+  &__img 
+    max-width: 100%
+    height: auto
+ 
+.button
+  display: inline-block
+  position: relative
+  padding: 18px 28px
+  border: none
+  border-radius: none
+  font-size: 14px 
+  font-weight: 700
+  line-height: 1 
+  text-transform: uppercase
+  text-decoration: none
+  text-align: center
+  letter-spacing: 1.4px
+  vertical-align: middle
+  cursor: pointer
+  color: $white
+  background-color: $theme-color
+  outline: none
+  transition: all .25s ease
+  &:hover, &:focus
+    text-decoration: none
+    color: #fff 
+  &:hover 
+    background-color: lighten($theme-color, 6%)
+  &:active
+    background-color: darken($theme-color, 6%)
+  &--transparent
+    padding: 15px 18px
+    background-color: transparent
+    border: 2px solid $white
+    font-size: 12px
+    letter-spacing: 1.2px
+    &:hover 
+      background-color: lighten(transparent, 6%)
+      border-color: lighten($white, 6%)
+    &:active
+      background-color: darken(transparent, 6%)
+      border-color: darken($white, 6%)
