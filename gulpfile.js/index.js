@@ -5,14 +5,15 @@ let scriptName    = 'scripts';
 
 /* Modules */
 const { series, parallel, src, dest, watch } = require('gulp');
-const browserSync = require('browser-sync');
-const devip       = require('dev-ip');
+const browserSync   = require('browser-sync');
+const devip         = require('dev-ip');
 const sass          = require('gulp-sass');
 const autoprefixer  = require('gulp-autoprefixer');
 const minCss        = require('gulp-clean-css');
 const rename        = require('gulp-rename');
 const concat        = require('gulp-concat');
-const uglify        = require('gulp-uglify');
+// const uglify        = require('gulp-uglify');
+const terser        = require('gulp-terser');
 const imagemin      = require('gulp-imagemin');
 const newer         = require('gulp-newer');
 const del           = require('del');
@@ -54,7 +55,7 @@ function scripts() {
   ])
   .pipe(concat(scriptName+'.js'))
   // .pipe(dest(baseFolder+'/js'))
-  .pipe(uglify())
+  .pipe(terser())
   .pipe(rename({ suffix: ".min" }))
   .pipe(dest(baseFolder+'/js'))
   .pipe(browserSync.stream())
