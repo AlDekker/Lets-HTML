@@ -1,7 +1,5 @@
 $(document).ready(function(){
 
-  console.log('done');
-
   /*Chrome Smooth Scroll*/
   try {
     $.browserSelector();
