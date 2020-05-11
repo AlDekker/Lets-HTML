@@ -2,7 +2,6 @@
 @import "libs"
 @import "fonts"
 
-
 *, *:before, *:after
   box-sizing: border-box
 
@@ -12,7 +11,10 @@ input, select, textarea
   outline: none !important
 
 a
-  text-decoration: none  
+  text-decoration: none
+  &:hover
+    color: $theme-color 
+    text-decoration: none  
 
 h1,h2,h3,h4,h5,h6,
 .h1,.h2,.h3,.h4,.h5,.h6
@@ -33,7 +35,7 @@ body
   min-width: 320px
   font-family: $default-font
   color: $text-color
-  line-height: 1.5
+  line-height: $l-height
   font-size: $f-size
   overflow-x: hidden
 
@@ -51,11 +53,6 @@ body
 .img-responsive
   max-width: 100%
   height: auto
-
-.img-bg
-  background-position: center
-  background-size: cover
-  background-repeat: no-repeat
 
 // Custom container
 // .container

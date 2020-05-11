@@ -1,8 +1,8 @@
 {
-  "name": "HTML-template",
+  "name": "Lets-HTML",
   "version": "2",
   "main": "index.js",
-  "repository": "https://github.com/AlDekker/HTML-template",
+  "repository": "https://github.com/AlDekker/Lets-HTML",
   "author": "https://github.com/AlDekker",
   "license": "MIT",
   "devDependencies": {
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "bootstrap-4-grid": "^3.2.0",
+    "bootstrap-sass": "^3.4.1",
     "jquery": "^3.4.1",
     "magnific-popup": "^1.1.0",
     "normalize.css": "^8.0.1",

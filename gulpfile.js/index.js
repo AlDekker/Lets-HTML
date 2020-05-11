@@ -108,4 +108,4 @@ exports.browsersync = browsersync;
 exports.images      = images;
 exports.cleanimg    = cleanimg;
 exports.deploy      = deploy;
-exports.default     = parallel(styles, scripts, images, browsersync, startWatch);
+exports.default     = parallel(html, styles, scripts, images, browsersync, startWatch);

@@ -5,6 +5,7 @@ Disallow: /
 #Allow: /img/
 #Disallow: /js/
 #Disallow: /css/
+#Disallow: /sass/
 #Disallow: /libs/
 #Disallow: /fonts/
 #Disallow: /scripts/
@@ -17,6 +18,7 @@ Disallow: /
 #Allow: /img/
 #Disallow: /js/
 #Disallow: /css/
+#Disallow: /sass/
 #Disallow: /libs/
 #Disallow: /fonts/
 #Disallow: /scripts/
