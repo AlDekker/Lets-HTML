@@ -1,18 +1,16 @@
 /* Settings */
-let baseFolder    = 'app';
+let base          = 'app';
 let pluginsFolder = 'node_modules';
-let scriptName    = 'scripts';  
 
 /* Modules */
 const { series, parallel, src, dest, watch } = require('gulp');
-const browserSync   = require('browser-sync');
+const browserSync   = require('browser-sync').create();
 const devip         = require('dev-ip');
 const sass          = require('gulp-sass');
 const autoprefixer  = require('gulp-autoprefixer');
-const minCss        = require('gulp-clean-css');
+const cleancss        = require('gulp-clean-css');
 const rename        = require('gulp-rename');
 const concat        = require('gulp-concat');
-// const uglify        = require('gulp-uglify');
 const terser        = require('gulp-terser');
 const imagemin      = require('gulp-imagemin');
 const newer         = require('gulp-newer');
@@ -24,24 +22,25 @@ const rsync         = require('gulp-rsync');
 // BrowserSync
 function browsersync() {
   browserSync.init({
-    server: { baseDir: baseFolder },
+    server: { baseDir: base },
     notify: false,
+    online: true, // work in offline (if set FALSE)
     host: devip() 
   });
 };
 
 // Styles
 function styles() {
-  return src(baseFolder+'/sass/**/*.sass')
+  return src(base+'/sass/**/*.sass')
   .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
   .pipe(autoprefixer({
 		grid: true,
 		overrideBrowserslist: ['last 15 versions']
   }))
-  .pipe(dest(baseFolder+'/css'))
-  .pipe(minCss())
+  .pipe(dest(base+'/css'))
+  .pipe(cleancss({ level: { 1: { specialComments: 0 } } }))
   .pipe(rename({ suffix: ".min" }))
-  .pipe(dest(baseFolder+'/css'))
+  .pipe(dest(base+'/css'))
   .pipe(browserSync.stream())
 }; 
 
@@ -51,33 +50,28 @@ function scripts() {
     pluginsFolder+'/jquery/dist/jquery.js',
     // pluginsFolder+'/magnific-popup/dist/jquery.magnific-popup.js',
     // pluginsFolder+'/slick-carousel/slick/slick.js',
-    baseFolder+'/js/common.js'
+    base+'/js/common.js'
   ])
-  .pipe(concat(scriptName+'.js'))
-  // .pipe(dest(baseFolder+'/js'))
+  .pipe(concat('scripts.js'))
+  // .pipe(dest(base+'/js'))
   .pipe(terser())
   .pipe(rename({ suffix: ".min" }))
-  .pipe(dest(baseFolder+'/js'))
+  .pipe(dest(base+'/js'))
   .pipe(browserSync.stream())
 }
 
-// HTML
-function html() {
-	return src(baseFolder+'/*.html')
-	.pipe(browserSync.stream())
-};
 
 // Images
 function images() {
-	return src(baseFolder+'/img/src/**/*')
-	.pipe(newer(baseFolder+'/img/dest'))
+	return src(base+'/img/src/**/*')
+	.pipe(newer(base+'/img/dest'))
 	.pipe(imagemin())
-  .pipe(dest(baseFolder+'/img/dest'))
+  .pipe(dest(base+'/img/dest'))
   .pipe(browserSync.stream())
 }
 
 function cleanimg() {
-	return del(baseFolder+'/img/dest/**/*', { force: true })
+	return del(base+'/img/dest/**/*', { force: true })
 }
 
 // Deploy
@@ -87,8 +81,8 @@ function deploy() {
 		root: 'app/',
 		hostname: 'username@hostname.com',
 		destination: 'yousite/public_html/',
-		// include: ['*.htaccess'], // Included files
-		exclude: ['**/Thumbs.db', '**/*.DS_Store'], // Excluded files
+		// include: ['*.htaccess'],
+		exclude: ['**/Thumbs.db', '**/*.DS_Store'],
 		recursive: true,
 		archive: true,
 		silent: false,
@@ -98,14 +92,14 @@ function deploy() {
 
 // Watch 
 function startWatch() {
-  watch(baseFolder+'/sass/**/*.sass', styles);
-  watch([baseFolder+'/**/*.js', '!'+baseFolder+'/js/*.min.js', '!'+baseFolder+'/js/'+scriptName+'.js'], scripts);
-  watch(baseFolder+'/*.html', html);
-  watch(baseFolder+'/img/**/*', images);
+  watch(base+'/sass/**/*.sass', styles);
+  watch([base+'/**/*.js', '!'+base+'/js/*.min.js', '!'+base+'/js/scripts.js'], scripts);
+  watch(base+'/img/src/**/*', images);
+  watch(base+'/**/*.html').on('change', browserSync.reload);
 }
 
 exports.browsersync = browsersync;
 exports.images      = images;
 exports.cleanimg    = cleanimg;
 exports.deploy      = deploy;
-exports.default     = parallel(html, styles, scripts, images, browsersync, startWatch);
+exports.default     = parallel(styles, scripts, images, browsersync, startWatch);
