@@ -74,33 +74,31 @@ function cleanimg() {
 	return del(base+'/img/dest/**/*', { force: true })
 }
 
-
-
 //SVG
-const svgSprite     = require('gulp-svg-sprite'); // Установить, если нужно
-const svgmin        = require('gulp-svgmin'); // Установить, если нужно
+// const svgSprite     = require('gulp-svg-sprite'); // Установить, если нужно
+// const svgmin        = require('gulp-svgmin'); // Установить, если нужно
 
-function svg() {
-  return src(base+'/img/src/icons/svg/*.svg')
-  .pipe(svgmin({ js2svg: { pretty: true } }))
-  .pipe(cheerio({
-    run: function ($) {
-      $('[fill]').removeAttr('fill');
-      $('[stroke]').removeAttr('stroke');
-      $('[style]').removeAttr('style');
-    },
-    parserOptions: {xmlMode: true}
-  }))
-  .pipe(replace('&gt;', '>'))
-  .pipe(svgSprite({
-    mode: {
-      symbol: { sprite: "sprite.svg" }
-    }
-  }))
-  .pipe(dest(base+'/img/dest/icons/svg/'))
-}; 
+// function svg() {
+//   return src(base+'/img/src/icons/svg/*.svg')
+//   .pipe(svgmin({ js2svg: { pretty: true } }))
+//   .pipe(cheerio({
+//     run: function ($) {
+//       $('[fill]').removeAttr('fill');
+//       $('[stroke]').removeAttr('stroke');
+//       $('[style]').removeAttr('style');
+//     },
+//     parserOptions: {xmlMode: true}
+//   }))
+//   .pipe(replace('&gt;', '>'))
+//   .pipe(svgSprite({
+//     mode: {
+//       symbol: { sprite: "sprite.svg" }
+//     }
+//   }))
+//   .pipe(dest(base+'/img/dest/icons/svg/'))
+// }; 
 
-exports.svg = svg;
+// exports.svg = svg;
 
 /*
 <svg class="svg-sprite-icon icon-nameIcon">
@@ -115,7 +113,7 @@ function deploy() {
 		root: 'app/',
 		hostname: 'username@hostname.com',
 		destination: 'yousite/public_html/',
-		// include: ['*.htaccess'],
+		include: ['*.htaccess'],
 		exclude: ['**/Thumbs.db', '**/*.DS_Store'],
 		recursive: true,
 		archive: true,
@@ -133,6 +131,8 @@ function startWatch() {
 }
 
 exports.browsersync = browsersync;
+exports.scripts     = scripts;
+exports.styles      = styles;
 exports.images      = images;
 exports.cleanimg    = cleanimg;
 exports.deploy      = deploy;
