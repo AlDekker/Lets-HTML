@@ -5,7 +5,7 @@
 *, *:before, *:after
   box-sizing: border-box
 
-a,a:hover, a:focus, a:active, 
+a, a:hover, a:focus, a:active, 
 button, button:focus, button:active, 
 input, select, textarea
   outline: none !important
@@ -16,8 +16,7 @@ a
     color: $theme-color 
     text-decoration: none  
 
-h1,h2,h3,h4,h5,h6,
-.h1,.h2,.h3,.h4,.h5,.h6
+h1,h2,h3,h4,h5,h6
   margin: 0
 
 ul, ul li
@@ -39,7 +38,7 @@ body
   font-size: $f-size
   overflow-x: hidden
 
-/*Press the footer to the bottom*/
+// Press footer to bottom
 .wrapper 
   display: flex
   flex-direction: column
@@ -48,18 +47,25 @@ body
   flex: 1 0 auto
 .footer 
   flex: 0 0 auto 
-/**/  
+//  
+
+// Custom container
+.container
+  max-width: $container-size
+  width: 100%
+  margin: 0 auto
+  padding: 0 $container-padding
 
 .img-responsive
   max-width: 100%
 
-// Custom container
-// .container
-//   max-width: $container-size
-//   width: 100%
-//   margin: 0 auto
-//   padding: 0 $container-padding
-// .row
-//   display: flex
+.logo
+  display: inline-block
+  img
+    max-width: 100%
+    height: auto
+
+
+
 
 @import "media" // Staying at the end
