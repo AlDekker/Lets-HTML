@@ -2,5 +2,3 @@
 /app/css/
 /dist/
 /**/*.lock
-yarn.lock
-/yarn.lock

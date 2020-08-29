@@ -74,38 +74,6 @@ function cleanimg() {
 	return del(base+'/img/dest/**/*', { force: true })
 }
 
-//SVG
-// const svgSprite     = require('gulp-svg-sprite'); // Установить, если нужно
-// const svgmin        = require('gulp-svgmin'); // Установить, если нужно
-
-// function svg() {
-//   return src(base+'/img/src/icons/svg/*.svg')
-//   .pipe(svgmin({ js2svg: { pretty: true } }))
-//   .pipe(cheerio({
-//     run: function ($) {
-//       $('[fill]').removeAttr('fill');
-//       $('[stroke]').removeAttr('stroke');
-//       $('[style]').removeAttr('style');
-//     },
-//     parserOptions: {xmlMode: true}
-//   }))
-//   .pipe(replace('&gt;', '>'))
-//   .pipe(svgSprite({
-//     mode: {
-//       symbol: { sprite: "sprite.svg" }
-//     }
-//   }))
-//   .pipe(dest(base+'/img/dest/icons/svg/'))
-// }; 
-
-// exports.svg = svg;
-
-/*
-<svg class="svg-sprite-icon icon-nameIcon">
-  <use xlink:href="img/icons/svg/symbol/sprite.svg#nameIcon"></use>
-</svg>
-*/
-
 // Deploy
 function deploy() {
 	return src('app/')
