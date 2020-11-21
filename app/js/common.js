@@ -1,5 +1,3 @@
-$(document).ready(function(){
-
-  // $("img, a").on("dragstart", function(event) { event.preventDefault(); });
-
-});
+document.addEventListener('DOMContentLoaded', function(event){
+  // Here
+})
