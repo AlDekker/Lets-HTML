@@ -12,6 +12,7 @@ const cleancss      = require('gulp-clean-css');
 const rename        = require('gulp-rename');
 const concat        = require('gulp-concat');
 const terser        = require('gulp-terser');
+const strip         = require('gulp-strip-comments');
 const imagemin      = require('gulp-imagemin');
 const newer         = require('gulp-newer');
 const del           = require('del');
@@ -54,6 +55,7 @@ function scripts() {
   ])
   .pipe(concat('scripts.js'))
   // .pipe(dest(base+'/js'))
+  .pipe(strip())
   .pipe(terser())
   .pipe(rename({ suffix: ".min" }))
   .pipe(dest(base+'/js'))
