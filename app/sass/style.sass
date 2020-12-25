@@ -3,11 +3,6 @@
 *, *:before, *:after
   box-sizing: border-box
 
-ul, ul li
-  margin: 0
-  padding: 0
-  list-style-type: none
-
 body, html 
   height: 100%  
 
@@ -22,7 +17,11 @@ body
   font-size: $f-size
   overflow-x: hidden
 
-// Press footer to bottom
+ul, ul li
+  margin: 0
+  padding: 0
+  list-style-type: none
+
 .wrapper 
   display: flex
   flex-direction: column
@@ -31,23 +30,12 @@ body
   flex: 1 0 auto
 .footer 
   flex: 0 0 auto 
-//  
 
-// Custom container
 .container
   max-width: $container-size
   width: 100%
   margin: 0 auto
   padding: 0 $container-padding
 
-.img-responsive
-  max-width: 100%
+// Code here
 
-.logo
-  display: inline-block
-  img
-    max-width: 100%
-    height: auto
-
-
-// @import "media" // Staying at the end

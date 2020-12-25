@@ -8,20 +8,20 @@ Disallow: /
 #Disallow: /sass/
 #Disallow: /libs/
 #Disallow: /fonts/
-#Disallow: /scripts/
 #Disallow: /cgi-bin/
 
 #User-agent: Googlebot
 #Allow: /
+#Disallow: /cgi-bin/
 
 #User-agent: Yandex
 #Allow: /img/
+#Allow: /css/
 #Disallow: /js/
-#Disallow: /css/
 #Disallow: /sass/
 #Disallow: /libs/
 #Disallow: /fonts/
-#Disallow: /scripts/
 #Disallow: /cgi-bin/
 
 #Host: sitename.ru
+#Sitemap: http://sitename.ru/sitemap.xml

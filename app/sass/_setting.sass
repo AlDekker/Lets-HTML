@@ -1,38 +1,35 @@
-// ** Libs **
-
-// @import "../../node_modules/bootstrap-4-grid/scss/grid.scss" // Bootstrap 4 
-// @import "../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss" // Bootstrap 3
+/* Libs */
 
 @import "../../node_modules/normalize.css/normalize"
+// @import "../../node_modules/bootstrap-4-grid/scss/grid.scss" // Bootstrap 4 
+// @import "../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss" // Bootstrap 3
 // @import "../../node_modules/magnific-popup/dist/magnific-popup"
 // @import "../../node_modules/slick-carousel/slick/slick"
 // @import "../../node_modules/slick-carousel/slick/slick-theme"
 
 
-// ** Fonts **
+/* Fonts */
 // Learn: https://developer.mozilla.org/ru/docs/Web/CSS/font-weight
 
 @mixin font-face($f-family, $f-weight, $f-style, $f-src)
   @font-face
-    font-display: swap
     font-family: $f-family
+    font-display: swap
     font-weight: $f-weight
     font-style: $f-style
     src: local($f-family), url($f-src) format('woff2')
 
-+font-face("Roboto", 400, normal, "../fonts/RobotoRegular")
-+font-face("Roboto", 700, normal, "../fonts/RobotoBold")
++font-face("Roboto", 400, normal, "../fonts/RobotoRegular.woff2")
++font-face("Roboto", 700, normal, "../fonts/RobotoBold.woff2")
 
 
-// ** Vars **
+// ** Vars ** 
 
 $text-color: #1a1a1a
 $theme-color: #eb4600
 
 $white: #ffffff
 $black: #000000
-
-$gradient: linear-gradient(351.79deg, #EBEDEE 6.31%, rgba(253, 251, 251, 0) 93.69%), $white
 
 $default-font: Roboto, sans-serif
 $f-size: 16px
@@ -41,12 +38,12 @@ $l-height: 1.5
 
 // ** GRID **
 
-$container-size: 1190px
-$container-padding: 10px
-$gutter: 30px  
-
 // Bootstrap Custom-grid
 // $grid-gutter-width: 30px !default
 // $grid-columns: 24
+
+$container-size: 1190px
+$container-padding: 10px
+$gutter: 30px  
 
 
