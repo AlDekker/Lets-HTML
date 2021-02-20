@@ -7,13 +7,14 @@ const browserSync   = require('browser-sync').create();
 const devip         = require('dev-ip');
 const rsync         = require('gulp-rsync');
 const sourcemaps    = require('gulp-sourcemaps');
+const through       = require('through2');
 const rename        = require('gulp-rename');
 const del           = require('del');
 const sass          = require('gulp-sass');
 const cleancss      = require('gulp-clean-css');
 const autoprefixer  = require('gulp-autoprefixer');
-const shorthand     = require('gulp-shorthand');
 const webpack       = require('webpack-stream');
+const UglifyJs      = require('uglifyjs-webpack-plugin');
 const terser        = require('gulp-terser');
 const strip         = require('gulp-strip-comments');
 const imagemin      = require('gulp-imagemin');
@@ -33,14 +34,13 @@ function browsersync() {
 /* SASS */
 function styles() {
   return src(base+'/sass/*.sass')
-  // .pipe(sourcemaps.init())
+  .pipe(sourcemaps.init())
   .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
   .pipe(autoprefixer({
     cascade: false,
     grid: true,
     overrideBrowserslist: ['last 10 versions']
   }))
-  .pipe(shorthand())
   .pipe(cleancss({
     level: { 1: { specialComments: 0 } },
   }, 
@@ -48,7 +48,7 @@ function styles() {
     console.log(`${details.name}: Original size:${details.stats.originalSize} - Minified size: ${details.stats.minifiedSize}`)
   }))
   .pipe(rename({ suffix: ".min" }))
-  // .pipe(sourcemaps.write())
+  .pipe(sourcemaps.write())
   .pipe(dest(base+'/css'))
   .pipe(browserSync.stream())
 };
@@ -59,7 +59,20 @@ function scripts() {
   .pipe(webpack({
     mode: 'production',
     performance: { hints: false },
-    optimization: { minimize: true },
+    optimization: { 
+      minimize: true, 
+      minimizer: [
+        new UglifyJs({
+          uglifyOptions: {
+            output: {
+              comments: false
+            }
+          },
+          sourceMap: true
+        })
+      ] 
+    },
+    devtool: 'inline-source-map',
     module: {
       rules: [
         {
@@ -77,11 +90,18 @@ function scripts() {
     this.emit('end')
   })
   // .pipe(terser()) // if not need babel
-  .pipe(strip())
+  // .pipe(strip())
   .pipe(rename({ 
     basename: "app",
     suffix: ".min" 
   }))
+  .pipe(sourcemaps.init({loadMaps: true}))
+  .pipe(through.obj(function (file, enc, cb) {
+    const isSourceMap = /\.map$/.test(file.path);
+    if (!isSourceMap) this.push(file);
+    cb();
+  }))
+  .pipe(sourcemaps.write('.'))
   .pipe(dest(base+'/js'))
   .pipe(browserSync.stream())
 }
