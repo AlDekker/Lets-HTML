@@ -1,7 +1,5 @@
-/node_modules/
-/.git/
-/**/*.lock
-/**/debug.log
-/app/css/
-/app/img/dest/
-/dist/
+node_modules/
+.git/
+.vscode
+*.log*
+dist/

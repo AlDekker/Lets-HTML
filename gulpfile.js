@@ -1,106 +1,149 @@
-/* Settings */
-let base          = 'app';
-let pluginsFolder = 'node_modules';
+let srcFolder  = 'app';
+let distFolder = 'dist'
+let base       = srcFolder;
 
-/* Modules */
 const { series, parallel, src, dest, watch } = require('gulp');
 const browserSync   = require('browser-sync').create();
-const sass          = require('gulp-sass');
-const autoprefixer  = require('gulp-autoprefixer');
-const cleancss      = require('gulp-clean-css');
+const rsync         = require('gulp-rsync');
+const sourcemaps    = require('gulp-sourcemaps');
 const rename        = require('gulp-rename');
-const concat        = require('gulp-concat');
+const del           = require('del');
+const sass          = require('gulp-sass');
+const cleancss      = require('gulp-clean-css');
+const autoprefixer  = require('gulp-autoprefixer');
+const shorthand     = require('gulp-shorthand');
+const webpack       = require('webpack-stream');
 const terser        = require('gulp-terser');
 const strip         = require('gulp-strip-comments');
 const imagemin      = require('gulp-imagemin');
 const newer         = require('gulp-newer');
-const del           = require('del');
-const rsync         = require('gulp-rsync');
-// const devip         = require('dev-ip');
 
-// BrowserSync
+/* BrowserSync */
 function browsersync() {
   browserSync.init({
-    server: { baseDir: base },
     notify: false,
-    online: true, // work in offline (if set FALSE)
+    online: true,
+    server: { baseDir: base },
+    // proxy: base,
+    // tunnel: 'lets-html', // URL: https://lets-html.loca.lt
     // host: devip(), // if external link doesn't work
-    // tunnel: 'lets-html', // Attempt to use the URL https://lets-html.loca.lt
   });
 };
 
-// Styles
+/* SASS */
 function styles() {
-  return src(base+'/sass/**/*.sass')
+  return src(base+'/sass/*.sass')
+  // .pipe(sourcemaps.init())
   .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
   .pipe(autoprefixer({
-		grid: true,
-		overrideBrowserslist: ['last 10 versions']
+    cascade: false,
+    grid: true,
+    overrideBrowserslist: ['last 10 versions']
   }))
-  .pipe(cleancss({ level: { 1: { specialComments: 0 } } }))
+  .pipe(shorthand())
+  .pipe(cleancss({
+    level: { 1: { specialComments: 0 } },
+  }, 
+  details => {
+    console.log(`${details.name}: Original size:${details.stats.originalSize} - Minified size: ${details.stats.minifiedSize}`)
+  }))
   .pipe(rename({ suffix: ".min" }))
+  // .pipe(sourcemaps.write())
   .pipe(dest(base+'/css'))
   .pipe(browserSync.stream())
-}; 
+};
 
-// Scripts
+/* Javascript */
 function scripts() {
-  return src([
-    // 'node_modules/jquery/dist/jquery.js',
-    // 'node_modules/magnific-popup/dist/jquery.magnific-popup.js',
-    // 'node_modules/slick-carousel/slick/slick.js',
-    base+'/js/common.js'
-  ])
-  .pipe(concat('app.js'))
-  // .pipe(dest(base+'/js'))
+  return src(base+'/js/main.js')
+  .pipe(webpack({
+    mode: 'production',
+    performance: { hints: false },
+    optimization: { minimize: true },
+    module: {
+      rules: [
+        {
+          test: /\.(js)$/,
+          exclude: /(node_modules)/,
+          loader: 'babel-loader',
+          query: {
+            presets: ['@babel/env'],
+            plugins: ['babel-plugin-root-import']
+          }
+        }
+      ]
+    }
+  })).on('error', function handleError() {
+    this.emit('end')
+  })
+  // .pipe(terser()) // if not need babel
   .pipe(strip())
-  .pipe(terser())
-  .pipe(rename({ suffix: ".min" }))
+  .pipe(rename({ 
+    basename: "app",
+    suffix: ".min" 
+  }))
   .pipe(dest(base+'/js'))
   .pipe(browserSync.stream())
 }
 
-// Images
+/* Images */
 function images() {
-	return src(base+'/img/src/**/*')
-	.pipe(newer(base+'/img/dest'))
-	.pipe(imagemin())
-  .pipe(dest(base+'/img/dest'))
-  .pipe(browserSync.stream())
+  return src([
+    distFolder+'/img/**/*',
+    '!' + distFolder+'/img/**/favicons/**/*',
+  ])
+  .pipe(imagemin())
+  .pipe(dest(distFolder+'/img'))
 }
 
-function cleanimg() {
-	return del(base+'/img/dest/**/*', { force: true })
+/* Build */
+function buildTransfer() {
+  return src([
+    srcFolder + '/css/*.min.*',
+    srcFolder + '/js/*.min.*',
+    srcFolder + '/fonts/**/*',
+    srcFolder + '/img/**/*',
+    srcFolder + '/**/{*.html, *.php}',
+    srcFolder + '/*.txt',
+    srcFolder + '/{htacce.ss, .htaccess}',
+    srcFolder + '/mail/**/*',
+  ], { base: srcFolder+'/' })
+  .pipe(dest(distFolder))
 }
 
-// Deploy
+function buildClear() {
+  return del(distFolder, { force: true })
+}
+
+/* Deploy */
 function deploy() {
-	return src('app/')
-	.pipe(rsync({
-		root: 'app/',
-		hostname: 'username@hostname.com',
-		destination: 'yousite/public_html/',
-		include: ['*.htaccess'],
-		exclude: ['**/Thumbs.db', '**/*.DS_Store'],
-		recursive: true,
-		archive: true,
-		silent: false,
-		compress: true
-	}))
+  return src(distFolder)
+  .pipe(rsync({
+    root: distFolder,
+    hostname: 'username@hostname.com',
+    destination: 'yousite/public_html/',
+    include: ['*.htaccess'],
+    exclude: ['**/Thumbs.db', '**/*.DS_Store'],
+    recursive: true,
+    archive: true,
+    silent: false,
+    compress: true
+  }))
 }
 
-// Watch 
+/* Watch */
 function startWatch() {
-  watch(base+'/sass/**/*.sass', styles);
-  watch([base+'/**/*.js', '!'+base+'/js/*.min.js', '!'+base+'/js/app.js'], scripts);
-  watch(base+'/img/src/**/*', images);
-  watch(base+'/**/*.html').on('change', browserSync.reload);
+  watch(base+'/sass/**/*.sass').on('change', styles);
+  watch([base+'/js/*.js', '!'+base+'/js/*.min*'], scripts);
+  watch(base+'/**/*.{html,htm,php,twig,tpl}').on('change', browserSync.reload);
 }
 
-exports.browsersync = browsersync;
-exports.scripts     = scripts;
+
 exports.styles      = styles;
+exports.scripts     = scripts;
 exports.images      = images;
-exports.cleanimg    = cleanimg;
 exports.deploy      = deploy;
-exports.default     = series(styles, scripts, images, parallel(browsersync, startWatch))
+exports.browsersync = browsersync;
+exports.buildClear  = buildClear;
+exports.build       = series(styles, scripts, buildClear, buildTransfer, images);
+exports.default     = series(styles, scripts, parallel(browsersync, startWatch))
