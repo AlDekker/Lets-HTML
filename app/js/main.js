@@ -5,7 +5,6 @@ import $ from 'jquery'; window.jQuery = $; window.$ = $;
 
 window.addEventListener("load", function () {
   // Code here >>>
-  console.log('hello world!');
 });
 
 
