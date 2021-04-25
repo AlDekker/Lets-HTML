@@ -3,7 +3,7 @@ import $ from 'jquery'; window.jQuery = $; window.$ = $;
 // import slick from 'slick-carousel';
 // import Swiper from 'swiper';
 
-window.addEventListener("load", function () {
+window.addEventListener('load', function () {
   // Code here >>>
 });
 
