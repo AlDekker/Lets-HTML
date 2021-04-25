@@ -28,7 +28,7 @@
     "gulp-terser": "^2.0.1",
     "webpack-stream": "^6.1.2",
     "through2": "^4.0.2",
-    "uglify-js": "^3.12.8"
+    "uglifyjs-webpack-plugin": "^2.2.0"
   },
   "dependencies": {
     "bootstrap-4-grid": "^3.4.0",
@@ -37,7 +37,7 @@
     "magnific-popup": "^1.1.0",
     "normalize.css": "^8.0.1",
     "slick-carousel": "^1.8.1",
-    "swiper": "^6.4.15",
-    "uglifyjs-webpack-plugin": "^2.2.0"
+    "swiper": "^6.4.15"
+
   }
 }
