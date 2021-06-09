@@ -7,8 +7,8 @@
   "author": "https://github.com/AlDekker",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.12.17",
-    "@babel/preset-env": "^7.12.17",
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
     "babel-loader": "^8.2.2",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-root-import": "^6.6.0",
@@ -16,7 +16,7 @@
     "del": "^6.0.0",
     "dev-ip": "^1.0.1",
     "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
+    "gulp-autoprefixer": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^7.1.0",
@@ -33,10 +33,9 @@
   "dependencies": {
     "bootstrap-4-grid": "^3.4.0",
     "bootstrap-sass": "^3.4.1",
-    "jquery": "^3.5.1",
+    "jquery": "^3.6.0",
     "magnific-popup": "^1.1.0",
     "normalize.css": "^8.0.1",
-    "slick-carousel": "^1.8.1",
-    "swiper": "^6.5.1"
+    "swiper": "^6.7.0"
   }
 }
