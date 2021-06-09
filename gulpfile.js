@@ -3,21 +3,21 @@ let distFolder = 'dist'
 let base       = srcFolder;
 
 const { series, parallel, src, dest, watch } = require('gulp');
-const browserSync   = require('browser-sync').create();
-const devip         = require('dev-ip');
-const rsync         = require('gulp-rsync');
-const sourcemaps    = require('gulp-sourcemaps');
-const through       = require('through2');
-const rename        = require('gulp-rename');
-const del           = require('del');
-const sass          = require('gulp-sass');
-const cleancss      = require('gulp-clean-css');
-const autoprefixer  = require('gulp-autoprefixer');
-const webpack       = require('webpack-stream');
-const UglifyJs      = require('uglifyjs-webpack-plugin');
-const terser        = require('gulp-terser');
-const strip         = require('gulp-strip-comments');
-const imagemin      = require('gulp-imagemin');
+const browserSync  = require('browser-sync').create();
+const devip        = require('dev-ip');
+const rsync        = require('gulp-rsync');
+const sourcemaps   = require('gulp-sourcemaps');
+const through      = require('through2');
+const rename       = require('gulp-rename');
+const del          = require('del');
+const sass         = require('gulp-sass');
+const cleancss     = require('gulp-clean-css');
+const autoprefixer = require('gulp-autoprefixer');
+const webpack      = require('webpack-stream');
+const UglifyJs     = require('uglifyjs-webpack-plugin');
+const terser       = require('gulp-terser');
+const strip        = require('gulp-strip-comments');
+const imagemin     = require('gulp-imagemin');
 
 /* BrowserSync */
 function browsersync() {
