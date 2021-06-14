@@ -1,7 +1,7 @@
 {
   "name": "letshtml",
   "version": "1.0.1",
-  "main": "index.js",
+  "main": "gulpfile.js",
   "description": "Template for quick started projects",
   "repository": "https://github.com/AlDekker/Lets-HTML",
   "author": "https://github.com/AlDekker",
@@ -37,5 +37,11 @@
     "magnific-popup": "^1.1.0",
     "normalize.css": "^8.0.1",
     "swiper": "^6.7.0"
-  }
+  },
+  "browserslist": [
+    "last 2 version",
+    "> 1%",
+    "maintained node versions",
+    "not dead"
+  ]
 }

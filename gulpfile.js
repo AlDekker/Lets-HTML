@@ -33,14 +33,10 @@ function browsersync() {
 
 /* SASS */
 function styles() {
-  return src(base+'/sass/*.sass')
+  return src(`${base}/sass/*.sass`)
   .pipe(sourcemaps.init())
   .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
-  .pipe(autoprefixer({
-    cascade: false,
-    grid: true,
-    overrideBrowserslist: ['last 10 versions']
-  }))
+  .pipe(autoprefixer({ cascade: false }))
   .pipe(cleancss({
     level: { 1: { specialComments: 0 } },
   }, 
@@ -49,13 +45,13 @@ function styles() {
   }))
   .pipe(rename({ suffix: ".min" }))
   .pipe(sourcemaps.write())
-  .pipe(dest(base+'/css'))
+  .pipe(dest(`${base}/css`))
   .pipe(browserSync.stream())
 };
 
 /* Javascript */
 function scripts() {
-  return src(base+'/js/main.js')
+  return src(`${base}/js/main.js`)
   .pipe(webpack({
     mode: 'production',
     performance: { hints: false },
@@ -102,15 +98,15 @@ function scripts() {
     cb();
   }))
   .pipe(sourcemaps.write('.'))
-  .pipe(dest(base+'/js'))
+  .pipe(dest(`${base}/js`))
   .pipe(browserSync.stream())
 }
 
 /* Images */
 function images() {
   return src([
-    distFolder+'/img/**/*',
-    '!' + distFolder+'/img/**/favicons/**/*',
+    `${distFolder}/img/**/*`,
+    `!${distFolder}/img/**/favicons/**/*`,
   ])
   .pipe(imagemin())
   .pipe(dest(distFolder+'/img'))
