@@ -121,7 +121,7 @@ function buildTransfer() {
     srcFolder + '/img/**/*',
     srcFolder + '/**/{*.html, *.php}',
     srcFolder + '/*.txt',
-    srcFolder + '/{htacce.ss, .htaccess}',
+    srcFolder + '/.htaccess',
     srcFolder + '/mail/**/*',
   ], { base: srcFolder+'/' })
   .pipe(dest(distFolder))
